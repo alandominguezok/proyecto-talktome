@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Chat Client</title>
+</head>
+
+<body>
+  <h1>WebSocket Chat Client</h1>
+
+  <fieldset>
+    <legend>Conexión</legend>
+    <label>WebSocket URL: <input type="text" id="wsUrl" value="ws://localhost:3001" size="30"></label><br><br>
+    <label>User ID: <input type="text" id="userId" value="usuario1" size="20"></label>
+    <button onclick="connectWebSocket()">Conectarse</button>
+  </fieldset>
+  <br>
+
+  <fieldset>
+    <legend>Enviar Mensaje</legend>
+    <label>Destino (all o ID): <input type="text" id="toUser" value="all" size="20"></label><br><br>
+    <textarea id="msg" rows="2" cols="40">Hola a todos!</textarea><br>
+    <button onclick="send()">Enviar Mensaje</button>
+  </fieldset>
+
+  <h3>Registro de actividad:</h3>
+  <div id="log"></div>
+
+  <script>
+    var websocket = null;
+    var log = document.getElementById("log");
+
+    function connectWebSocket() {
+      var wsUri = document.getElementById("wsUrl").value;
+      var userId = document.getElementById("userId").value.trim();
+
+      if (!userId) {
+        alert("Por favor ingresa un ID de usuario válido.");
+        return;
+      }
+
+      if (websocket && websocket.readyState === WebSocket.OPEN) {
+        writeLog("Ya estás conectado.");
+        return;
+      }
+
+      writeLog("Conectando a " + wsUri + "...");
+      websocket = new WebSocket(wsUri);
+
+      websocket.onopen    = function (event) { onOpen(event, userId); };
+      websocket.onclose   = function (event) { onClose(event); };
+      websocket.onmessage = function (event) { onMessage(event); };
+      websocket.onerror   = function (event) { onError(event); };
+    }
+
+    function onOpen(event, userId) {
+      writeLog("CONNECTED");
+      sendMessageRaw(JSON.stringify({ join: userId }));
+    }
+
+    function onClose(event) {
+      writeLog("Websocket DISCONNECTED");
+    }
+
+    function onMessage(event) {
+      writeLog("RESPONSE: " + event.data, "blue");
+    }
+
+    function onError(event) {
+      writeLog("ERROR: no se pudo conectar o la conexión falló", "red");
+    }
+
+    function sendMessageRaw(message) {
+      writeLog("SENT: " + message);
+      websocket.send(message);
+    }
+
+    function send() {
+      if (!websocket || websocket.readyState !== WebSocket.OPEN) {
+        alert("No estás conectado al servidor de WebSockets.");
+        return;
+      }
+
+      var userId = document.getElementById("userId").value.trim();
+      var to = document.getElementById("toUser").value;
+      var textMsg = document.getElementById("msg").value;
+
+      sendMessageRaw(JSON.stringify({ from: userId, to: to, msg: textMsg }));
+    }
+
+    // textContent en vez de innerHTML: evita que otro usuario inyecte HTML/JS en tu página
+    function writeLog(message, color) {
+      var p = document.createElement("p");
+      if (color) p.style.color = color;
+      p.textContent = message;
+      log.appendChild(p);
+    }
+  </script>
+</body>
+</html>

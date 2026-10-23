@@ -1,0 +1,6 @@
+2. Install `npm`.
+3. Change to application directory.
+4. Install dependencies: `npm install`
+5. run server: `node ws-chatserver.js`
+6. In browser open tabs to `localhost:3000` to start chatting.
+7. Invite other users to join to tour chat server (`http://your-host-ip:3000`).
