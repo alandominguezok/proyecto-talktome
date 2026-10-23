@@ -1,0 +1,55 @@
+/* Charla — generated from tokens.json */
+:root, [data-theme="light"] {
+  --surface-000: #efebe2;
+  --surface-100: #fbfaf6;
+  --surface-200: #e9e4d8;
+  --line: #d6cfbf;
+  --line-strong: #8b8577;
+  --ink: #1c201b;
+  --ink-muted: #575d53;
+  --brand: #1e5a47;
+  --brand-hover: #174a3a;
+  --on-brand: #ffffff;
+  --brand-soft: #d6e8de;
+  --private: #9a5a0c;
+  --private-soft: #fbeacb;
+  --private-ink: #7a4505;
+  --online: #2b7a4b;
+  --danger: #a8261d;
+  --focus: #0f5f86;
+  --shadow-card: 0 1px 2px rgba(28,32,27,0.08), 0 8px 24px rgba(28,32,27,0.08);
+}
+[data-theme="dark"] {
+  --surface-000: #121411;
+  --surface-100: #1b1e1a;
+  --surface-200: #262a24;
+  --line: #363b33;
+  --line-strong: #7a8174;
+  --ink: #ecebe3;
+  --ink-muted: #a6ab9f;
+  --brand: #72c4a4;
+  --brand-hover: #8fd3b8;
+  --on-brand: #0d1d16;
+  --brand-soft: #1f3a2f;
+  --private: #e7ac55;
+  --private-soft: #3a2b12;
+  --private-ink: #f3c27a;
+  --online: #5fcf8d;
+  --danger: #f08a80;
+  --focus: #7cc9ee;
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4);
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-full: 999px;
+  --font-display: "Bricolage Grotesque", "Figtree", system-ui, sans-serif;
+  --font-text: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+}

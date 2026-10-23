@@ -1,6 +1,41 @@
-2. Install `npm`.
-3. Change to application directory.
-4. Install dependencies: `npm install`
-5. run server: `node ws-chatserver.js`
-6. In browser open tabs to `localhost:3000` to start chatting.
-7. Invite other users to join to tour chat server (`http://your-host-ip:3000`).
+TalkToMe — chat por WebSocket con salas y mensajes privados.
+
+Requisitos: Node.js 18 o superior.
+
+1. Instalar dependencias: `npm install`
+2. Iniciar el servidor: `npm start` (o `node ws-chatserver.js`)
+3. Abrir http://localhost:8080 en el navegador (varias pestañas para probar con varios usuarios).
+
+Puertos: la app se sirve en 8080 (HTTP_PORT) y el WebSocket en 3001 (WS_PORT).
+Para que otras máquinas se conecten, definí PUBLIC_ORIGIN con la URL que usan,
+por ejemplo: PUBLIC_ORIGIN=http://192.168.0.10:8080 npm start
+
+Cómo funciona
+- Login solo con nombre (único entre los conectados). Más adelante se reemplaza por usuarios en base de datos.
+- Salas públicas: General, Equipo QA y Random. "Unirse con código" entra a una sala privada; si el código no existe, la crea.
+- En cada sala podés mandar el mensaje a Todos o a Una persona. Los privados solo los reciben el emisor y el destinatario.
+- Todo se guarda en memoria (store.js): al reiniciar el servidor se pierden salas y mensajes.
+
+Estructura
+- ws-chatserver.js   servidor HTTP + WebSocket y protocolo
+- store.js           acceso a datos (en memoria; acá va la base de datos después)
+- public/            cliente: index.html, app.js, app.css
+- public/charla/     design system Charla (tokens y componentes)
+- public/vendor/     React 18.3.1 (UMD)
+- scripts/build-tokens.js  regenera public/charla/tokens.css desde tokens.json
+
+Protocolo (JSON por WebSocket)
+Cliente -> servidor
+  { type: "login", name }
+  { type: "join", room }                 sala pública o código de sala privada
+  { type: "leave", room }
+  { type: "history", room }
+  { type: "message", room, to, text }    to: null = todos, o el nombre del destinatario
+Servidor -> cliente
+  { type: "welcome", user, online, rooms }
+  { type: "presence", online }
+  { type: "rooms", rooms }               rooms: [{ id, name, isPublic, joined, members }]
+  { type: "joined", room, history }
+  { type: "left", room }
+  { type: "message", message }           message: { id, room, at, from, to, text } o { system: true, text }
+  { type: "error", code, message }

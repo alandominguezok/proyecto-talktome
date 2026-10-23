@@ -1,0 +1,12 @@
+html, body, #root { height: 100%; }
+
+.app-login { min-height: 100%; display: grid; place-items: center; padding: var(--space-4); box-sizing: border-box; }
+.app-brand { margin: 0 0 var(--space-4); text-align: center; font: 700 20px/24px var(--font-display); color: var(--brand); }
+
+.app-user { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--line); }
+.app-user strong { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.app-empty { margin: auto; text-align: center; color: var(--ink-muted); }
+.app-error { margin: 0; padding: var(--space-2) var(--space-4); background: var(--surface-100); border-top: 1px solid var(--line); }
+
+.app-shell { height: 100vh; }

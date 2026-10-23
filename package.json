@@ -2,5 +2,11 @@
   "dependencies": {
     "express": "^4.18.2",
     "ws": "^8.14.2"
+  },
+  "name": "proyecto-talktome",
+  "private": true,
+  "scripts": {
+    "start": "node ws-chatserver.js",
+    "build:tokens": "node scripts/build-tokens.js"
   }
 }
